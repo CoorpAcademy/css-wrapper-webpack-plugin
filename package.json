@@ -1,5 +1,5 @@
 {
-  "name": "@coorpacademy/webpack-css-wrapper-plugin",
+  "name": "@coorpacademy/css-wrapper-webpack-plugin",
   "version": "1.0.2",
   "description": "Webpack plugin to wrap all CSS classes in a container",
   "main": "index.js",
