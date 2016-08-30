@@ -36,12 +36,15 @@ function WebpackCSSWrapperPlugin(file, container) {
 }
 
 WebpackCSSWrapperPlugin.prototype.apply = function(compiler) {
-  compiler.plugin('emit', (compilation, callback) => {
-    const source = compilation.assets[this.file].source();
-    const processor = postcss([cssWrapperPostCSSPlugin(this.container)]);
+  const file = this.file;
+  const container = this.container;
+
+  compiler.plugin('emit', function(compilation, callback) {
+    const source = compilation.assets[file].source();
+    const processor = postcss([cssWrapperPostCSSPlugin(container)]);
 
     processor.process(source).then(result => {
-      compilation.assets[this.file] = {
+      compilation.assets[file] = {
         source: () => result.css,
         size: () => result.css.length
       };
