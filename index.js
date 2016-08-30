@@ -1,31 +1,31 @@
-const _ = require('lodash/fp')
+const _ = require('lodash/fp');
 const postcss = require('postcss');
 
 const cssWrapperPostCSSPlugin = postcss.plugin(
   'css-wrapper-webpack-plugin',
   function(prefix) {
-  return function (css) {
-    css.walkRules(function (rule) {
-      if (_.isEqual(_.get('parent.name', rule), 'keyframes'))
-        return;
+    return function(css) {
+      css.walkRules(function(rule) {
+        if (_.isEqual(_.get('parent.name', rule), 'keyframes'))
+          return;
 
-      const selector = rule.selector;
-      rule.selector = _.pipe(
-        _.split(','),
-        _.map(
-          _.pipe(
-            _.trim,
-            prefixer(prefix)
-          )
-        ),
-        _.join(', ')
-      )(selector);
-    });
-  }
-});
+        const selector = rule.selector;
+        rule.selector = _.pipe(
+          _.split(','),
+          _.map(
+            _.pipe(
+              _.trim,
+              prefixer(prefix)
+            )
+          ),
+          _.join(', ')
+        )(selector);
+      });
+    };
+  });
 
 const prefixer = function(prefix) {
-  return function(selector) {
+  return function(selector) {
     return _.join(' ', [prefix, selector]);
   };
 };
@@ -40,7 +40,9 @@ WebpackCSSWrapperPlugin.prototype.apply = function(compiler) {
   const container = this.container;
 
   compiler.plugin('emit', function(compilation, callback) {
-    const source = compilation.assets[file].source();
+    const assets = compilation.assets;
+    if (!_.has(file, assets)) return callback();
+    const source = assets[file].source();
     const processor = postcss([cssWrapperPostCSSPlugin(container)]);
 
     processor.process(source).then(result => {
@@ -48,10 +50,9 @@ WebpackCSSWrapperPlugin.prototype.apply = function(compiler) {
         source: () => result.css,
         size: () => result.css.length
       };
-      callback()
+      callback();
     }, callback);
   });
 };
-
 
 module.exports = WebpackCSSWrapperPlugin;
