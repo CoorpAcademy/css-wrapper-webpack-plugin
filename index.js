@@ -9,7 +9,7 @@ WebpackCSSWrapperPlugin.prototype.apply = function(compiler) {
     const newCss = source.replace(/}\./g, `}${this.container} .`);
     const wrappedCss = [`${this.container} `, newCss].join('');
 
-    compilation.assets['styles.css'] = {
+    compilation.assets[this.file] = {
       source: () => wrappedCss,
       size: () => wrappedCss.length
     };
