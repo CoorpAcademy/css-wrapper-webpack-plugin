@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "lodash": "^4.15.0",
+    "lodash": "^4.17.1",
     "postcss": "^5.1.2"
   }
 }
