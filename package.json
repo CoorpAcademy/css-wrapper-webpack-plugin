@@ -8,6 +8,6 @@
   },
   "dependencies": {
     "lodash": "^4.15.0",
-    "postcss": "^5.1.2"
+    "postcss": "^5.2.16"
   }
 }
