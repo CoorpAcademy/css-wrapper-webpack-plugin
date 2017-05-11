@@ -15,7 +15,7 @@ the final css will be wrapped with your container
 ### Usage
 require the plugin
 ```
-const WebpackCSSWrapperPlugin = require('@coorpacademy/webpack-css-wrapper');
+const WebpackCSSWrapperPlugin = require('@coorpacademy/css-wrapper-webpack-plugin');
 ```
 
 then within your webpack plugins:
